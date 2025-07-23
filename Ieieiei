@@ -93,6 +93,9 @@ local function sendNotification(modelName, mutation, moneyText)
     local gameName = "Unknown"
     local playerCount = getPlayerCount()
 
+    -- Prevent sending notification when player count is 8
+    if playerCount == 8 then return end
+
     pcall(function()
         local info = MarketplaceService:GetProductInfo(game.PlaceId)
         gameName = info and info.Name or "Unknown"
@@ -109,7 +112,7 @@ local function sendNotification(modelName, mutation, moneyText)
 
 --- 💵 **Money/s:** %s
 
---- 👥 **Player Count:** %d
+--- 👥 **Player Count:** 8/%d
 
 local player = game.Players:GetPlayers()[1]
 local teleportService = game:GetService("TeleportService")
