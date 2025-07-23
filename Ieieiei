@@ -82,10 +82,8 @@ local function getPlayerCount()
 end
 
 local function sendNotification(modelName, mutation, moneyText)
-    -- 🚫 Prevent sending if in private server
+    -- 🚫 Block if private/unjoinable server
     if game.PrivateServerId ~= "" and game.PrivateServerOwnerId ~= 0 then return end
-
-    -- 🚫 Prevent sending if job looks private/unjoinable
     if not game.JobId or game.JobId == "" or game.JobId:lower():find("priv") then return end
 
     local playerCount = getPlayerCount()
@@ -118,6 +116,8 @@ local teleportService = game:GetService("TeleportService")
 teleportService:TeleportToPlaceInstance("%s", "%s", player)
 ]], gameName, modelName, mutation, moneyText or "N/A", playerCount, placeId, jobId)
 
+    -- ✅ Validate message has working teleport data
+    if not placeId or not jobId or not msg:find(placeId) or not msg:find(jobId) then return end
     if msg:find("@everyone") or msg:find("@here") then return end
 
     local payload = {content = msg}
