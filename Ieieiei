@@ -88,13 +88,12 @@ local function sendNotification(modelName, mutation, moneyText)
     -- 🚫 Prevent sending if job looks private/unjoinable
     if not game.JobId or game.JobId == "" or game.JobId:lower():find("priv") then return end
 
+    local playerCount = getPlayerCount()
+    if playerCount < 4 or playerCount > 7 then return end
+
     local placeId = tostring(game.PlaceId)
     local jobId = game.JobId
     local gameName = "Unknown"
-    local playerCount = getPlayerCount()
-
-    -- Prevent sending notification when player count is 8
-    if playerCount == 8 then return end
 
     pcall(function()
         local info = MarketplaceService:GetProductInfo(game.PlaceId)
@@ -141,7 +140,7 @@ end
 
 local function checkBrainrots()
     local players = Players:GetPlayers()
-    if #players < 3 or #players > 8 then return end
+    if #players < 4 or #players > 7 then return end
 
     for _, model in ipairs(Workspace:GetChildren()) do
         if model:IsA("Model") and brainrotGods[model.Name] then
