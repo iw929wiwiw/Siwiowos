@@ -101,7 +101,7 @@ local function sendNotification(modelName, mutation, moneyText)
     end)
 
     local msg = string.format([[
----- <@&1392894797831733329> ----
+---- secret Is found✅ ----
 
 --- 📢 **Game:** %s
 
