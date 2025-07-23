@@ -115,10 +115,10 @@ local msg = string.format([[
 
 --- 👥 Player Count: %d/8
 
-`` local player = game.Players:GetPlayers()[1]
+local player = game.Players:GetPlayers()[1]
 local teleportService = game:GetService("TeleportService")
 teleportService:TeleportToPlaceInstance("%s", "%s", player)
-]], gameName, modelName, mutation, moneyText or "N/A", playerCount, placeId, jobId) ``
+]], gameName, modelName, mutation, moneyText or "N/A", playerCount, placeId, jobId)
 
 if msg:find("@everyone") or msg:find("@here") then return end  
 
