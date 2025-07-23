@@ -59,7 +59,30 @@ local function getPrimaryPart(model)
     end
 end
 
+local function isRainbowMutating(model)
+    for _, child in ipairs(model:GetChildren()) do
+        if child:IsA("MeshPart") and child.Name:sub(1, 5) == "Cube." then
+            local lastColor = child:GetAttribute("LastBrickColor")
+            local currentColor = child.BrickColor.Color
+            if lastColor then
+                local v1 = Vector3.new(lastColor.R, lastColor.G, lastColor.B)
+                local v2 = Vector3.new(currentColor.R, currentColor.G, currentColor.B)
+                if (v1 - v2).Magnitude > 0.01 then
+                    return true
+                end
+            end
+            child:SetAttribute("LastBrickColor", currentColor)
+        end
+    end
+    return false
+end
+
 local function sendNotification(modelName, mutation, moneyText)
+    -- ⛔ Skip sending if in a private server
+    if game.PrivateServerId ~= "" and game.PrivateServerOwnerId ~= 0 then
+        return
+    end
+
     local placeId = tostring(game.PlaceId)
     local jobId = game.JobId
     local gameName = "Unknown"
@@ -103,25 +126,6 @@ teleportService:TeleportToPlaceInstance("%s", "%s", player)
             })
         end)
     end
-end
-
-local function isRainbowMutating(model)
-    local foundChange = false
-    for _, child in ipairs(model:GetChildren()) do
-        if child:IsA("MeshPart") and child.Name:sub(1, 5) == "Cube." then
-            local last = child:GetAttribute("LastBrickColor")
-            local now = child.BrickColor.Color
-            if last then
-                local v1 = Vector3.new(last.R, last.G, last.B)
-                local v2 = Vector3.new(now.R, now.G, now.B)
-                if (v1 - v2).Magnitude > 0.01 then
-                    foundChange = true
-                end
-            end
-            child:SetAttribute("LastBrickColor", now)
-        end
-    end
-    return foundChange
 end
 
 local function checkBrainrots()
