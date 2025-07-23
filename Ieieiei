@@ -112,7 +112,7 @@ local function sendNotification(modelName, mutation, moneyText)
 
 --- 💵 **Money/s:** %s
 
---- 👥 **Player Count:** 8/%d
+--- 👥 **Player Count:** %d/8
 
 local player = game.Players:GetPlayers()[1]
 local teleportService = game:GetService("TeleportService")
