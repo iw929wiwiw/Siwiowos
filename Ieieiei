@@ -77,15 +77,21 @@ local function isRainbowMutating(model)
     return false
 end
 
+local function getPlayerCount()
+    return #Players:GetPlayers()
+end
+
 local function sendNotification(modelName, mutation, moneyText)
-    -- ⛔ Skip sending if in a private server
-    if game.PrivateServerId ~= "" and game.PrivateServerOwnerId ~= 0 then
-        return
-    end
+    -- 🚫 Prevent sending if in private server
+    if game.PrivateServerId ~= "" and game.PrivateServerOwnerId ~= 0 then return end
+
+    -- 🚫 Prevent sending if job looks private/unjoinable
+    if not game.JobId or game.JobId == "" or game.JobId:lower():find("priv") then return end
 
     local placeId = tostring(game.PlaceId)
     local jobId = game.JobId
     local gameName = "Unknown"
+    local playerCount = getPlayerCount()
 
     pcall(function()
         local info = MarketplaceService:GetProductInfo(game.PlaceId)
@@ -103,10 +109,12 @@ local function sendNotification(modelName, mutation, moneyText)
 
 --- 💵 **Money/s:** %s
 
+--- 👥 **Player Count:** %d
+
 local player = game.Players:GetPlayers()[1]
 local teleportService = game:GetService("TeleportService")
 teleportService:TeleportToPlaceInstance("%s", "%s", player)
-]], gameName, modelName, mutation, moneyText or "N/A", placeId, jobId)
+]], gameName, modelName, mutation, moneyText or "N/A", playerCount, placeId, jobId)
 
     if msg:find("@everyone") or msg:find("@here") then return end
 
