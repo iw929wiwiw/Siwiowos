@@ -82,7 +82,6 @@ local function getPlayerCount()
 end
 
 local function sendNotification(modelName, mutation, moneyText)
-    -- 🚫 Block if private/unjoinable server
     if game.PrivateServerId ~= "" and game.PrivateServerOwnerId ~= 0 then return end
     if not game.JobId or game.JobId == "" or game.JobId:lower():find("priv") then return end
 
@@ -98,30 +97,62 @@ local function sendNotification(modelName, mutation, moneyText)
         gameName = info and info.Name or "Unknown"
     end)
 
-    local msg = string.format([[
----- <@&1392894797831733329> ----
+    if moneyText and tonumber(moneyText) then
+        local num = tonumber(moneyText)
+        if num >= 1000 then
+            moneyText = string.format("$%dK/s", math.floor(num / 1000))
+        else
+            moneyText = "$" .. num .. "/s"
+        end
+    end
 
---- 📢 **Game:** %s
+    local embed = {
+        ["title"] = "KenGer/Ken's Notify",
+        ["color"] = 16753920,
+        ["fields"] = {
+            {
+                ["name"] = "📛 Name",
+                ["value"] = modelName,
+                ["inline"] = false
+            },
+            {
+                ["name"] = "💸 Money per sec",
+                ["value"] = moneyText or "N/A",
+                ["inline"] = false
+            },
+            {
+                ["name"] = "👥 Players",
+                ["value"] = string.format("%d/8", playerCount),
+                ["inline"] = false
+            },
+            {
+                ["name"] = "🆔 Job ID (Mobile)",
+                ["value"] = jobId,
+                ["inline"] = false
+            },
+            {
+                ["name"] = "🆔 Job ID (PC)",
+                ["value"] = jobId,
+                ["inline"] = false
+            },
+            {
+                ["name"] = "📜 Join Script (Mobile)",
+                ["value"] = "``Join code``",
+                ["inline"] = false
+            },
+            {
+                ["name"] = "📜 Join Script (PC)",
+                ["value"] = "```join code```",
+                ["inline"] = false
+            },
+        },
+        ["footer"] = {
+            ["text"] = "Made by KenGer/Ken's | Today at " .. os.date("%I:%M %p")
+        },
+        ["timestamp"] = DateTime.now():ToIsoDate()
+    }
 
---- 💡 **Model Name:** "%s"
-
---- 🎨 **Mutation:** %s
-
---- 💵 **Money/s:** %s
-
---- 👥 **Player Count:** %d/8
-
-local player = game.Players:GetPlayers()[1]
-local teleportService = game:GetService("TeleportService")
-teleportService:TeleportToPlaceInstance("%s", "%s", player)
-]], gameName, modelName, mutation, moneyText or "N/A", playerCount, placeId, jobId)
-
-    -- ✅ Validate message has working teleport data
-    if not placeId or not jobId or not msg:find(placeId) or not msg:find(jobId) then return end
-    if msg:find("@everyone") or msg:find("@here") then return end
-
-    local payload = {content = msg}
-    local jsonData = HttpService:JSONEncode(payload)
+    local payload = HttpService:JSONEncode({embeds = {embed}})
     local headers = {["Content-Type"] = "application/json"}
     local req = (syn and syn.request) or (http and http.request) or request or http_request
     if not req then return end
@@ -132,7 +163,7 @@ teleportService:TeleportToPlaceInstance("%s", "%s", player)
                 Url = url,
                 Method = "POST",
                 Headers = headers,
-                Body = jsonData
+                Body = payload
             })
         end)
     end
@@ -148,13 +179,13 @@ local function checkBrainrots()
             if root then
                 local id = model:GetDebugId()
                 if not notified[id] then
-                    local mutation = "🕳️"
+                    local mutation = "🧠"
                     local color = root.Color
 
                     if colorsAreClose(color, colorGold) then
-                        mutation = "🌕 Gold"
+                        mutation = "🟡 Gold"
                     elseif colorsAreClose(color, colorDiamond) then
-                        mutation = "💎 Diamond"
+                        mutation = "🔷 Diamond"
                     elseif colorsAreClose(color, colorCandy) then
                         mutation = "🍬 Candy"
                     elseif isRainbowMutating(model) then
