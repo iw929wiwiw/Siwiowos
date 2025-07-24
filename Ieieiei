@@ -137,12 +137,12 @@ local function sendNotification(modelName, mutation, moneyText)
             },
             {
                 ["name"] = "📜 Join Script (Mobile)",
-                ["value"] = "``Join code``",
+                ["value"] = string.format("``%s/%s``", placeId, jobId),
                 ["inline"] = false
             },
             {
                 ["name"] = "📜 Join Script (PC)",
-                ["value"] = "```join code```",
+                ["value"] = string.format("```%s/%s```", placeId, jobId),
                 ["inline"] = false
             },
         },
