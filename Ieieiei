@@ -127,21 +127,11 @@ local function sendNotification(modelName, mutation, moneyText)
             },
             {
                 ["name"] = "🆔 Job ID (Mobile)",
-                ["value"] = jobId,
-                ["inline"] = false
-            },
-            {
-                ["name"] = "🆔 Job ID (PC)",
-                ["value"] = jobId,
-                ["inline"] = false
-            },
-            {
-                ["name"] = "📜 Join Script (Mobile)",
                 ["value"] = string.format("``%s/%s``", placeId, jobId),
                 ["inline"] = false
             },
             {
-                ["name"] = "📜 Join Script (PC)",
+                ["name"] = "🆔 Job ID (PC)",
                 ["value"] = string.format("```%s/%s```", placeId, jobId),
                 ["inline"] = false
             },
