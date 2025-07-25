@@ -171,7 +171,7 @@ teleportService:TeleportToPlaceInstance("%s", "%s", player)
 
     -- Send to mid and extra webhook only for special ranked brainrots
     if specialForThirdWebhook[modelName] then
-        -- Only send if any player has been in game for 30+ seconds
+        -- Only send if any player has been in game for 50+ seconds
         local minTimeInGameMet = false
         for _, plr in ipairs(Players:GetPlayers()) do
             if plr:IsDescendantOf(Players) then
@@ -182,7 +182,7 @@ teleportService:TeleportToPlaceInstance("%s", "%s", player)
                     joined.Value = tick()
                     joined.Parent = plr
                 end
-                if tick() - joined.Value >= 30 then
+                if tick() - joined.Value >= 50 then
                     minTimeInGameMet = true
                     break
                 end
