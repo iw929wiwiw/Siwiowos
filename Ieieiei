@@ -146,7 +146,9 @@ local function sendNotification(mainModel, mutation, moneyText, rankedModels)
 --- 🧠 **Brainrots Found:**
 %s
 --- 🎨 **Best Mutation:** %s
+
 --- 💵 **Money/s:** %s
+
 --- 👥 **Player Count:** %d/8
 
 local player = game.Players:GetPlayers()[1]
