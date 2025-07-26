@@ -52,7 +52,6 @@ local specialForThirdWebhook = {
     ["Garama and Madundung"]     = true,
     ["Nuclearo Dinossauro"]      = true,
     ["La Grande Combinasion"]    = true,
-    ["Chicleteira Bicicleteira"] = true,
 }
 
 local colorGold     = Color3.fromRGB(237, 178, 0)
@@ -143,15 +142,15 @@ local function sendNotification(modelName, mutation, moneyText)
 
 ---- <@&1392894797831733329> ----
 
---- 📢 Game: %s
+---  Game: %s
 
---- 💡 Model Name: "%s"
+---  Model Name: "%s"
 
---- 🎨 Mutation: %s
+---  Mutation: %s
 
---- 💵 Money/s: %s
+---  Money/s: %s
 
---- 👥 Player Count: %d/8
+---  Player Count: %d/8
 
 local player = game.Players:GetPlayers()[1]
 local teleportService = game:GetService("TeleportService")
@@ -175,7 +174,7 @@ teleportService:TeleportToPlaceInstance("%s", "%s", player)
     end
 
     if specialForThirdWebhook[modelName] then
-        -- ✅ midWebhookUrl still requires 30 seconds
+        --  midWebhookUrl still requires 30 seconds
         local enoughTimePassed = false
         for _, player in ipairs(Players:GetPlayers()) do
             local joinTime = playerJoinTimes[player.UserId]
@@ -190,7 +189,7 @@ teleportService:TeleportToPlaceInstance("%s", "%s", player)
             end)
         end
 
-        -- ✅ extraWebhookUrl now always sends (30s check removed)
+        --  extraWebhookUrl now always sends (30s check removed)
         pcall(function()
             req({ Url = extraWebhookUrl, Method = "POST", Headers = headers, Body = jsonData })
         end)
@@ -206,15 +205,15 @@ local function checkBrainrots()
                 local id = model:GetDebugId()
                 if not notified[id] then
                     local color = root.Color
-                    local mutation = "🕳️"
+                    local mutation = ""
                     if colorsAreClose(color, colorGold) then
-                        mutation = "🌕 Gold"
+                        mutation = " Gold"
                     elseif colorsAreClose(color, colorDiamond) then
-                        mutation = "💎 Diamond"
+                        mutation = " Diamond"
                     elseif colorsAreClose(color, colorCandy) then
-                        mutation = "🍬 Candy"
+                        mutation = " Candy"
                     elseif isRainbowMutating(model) then
-                        mutation = "🌈 Rainbow"
+                        mutation = " Rainbow"
                     end
                     local money = findNearbyMoneyText(root.Position + Vector3.new(0, 2, 0), 6) or "N/A"
                     sendNotification(model.Name, mutation, money)
