@@ -43,7 +43,6 @@ local notified        = {}
 local lastSentMessage = {}
 local playerJoinTimes = {}
 
--- Track join times
 Players.PlayerAdded:Connect(function(player)
     playerJoinTimes[player.UserId] = tick()
 end)
@@ -169,21 +168,30 @@ teleportService:TeleportToPlaceInstance("%s", "%s", player)
         end)
     end
 
-    -- Tick-based delay (30s) for extra webhooks
     if specialForThirdWebhook[modelName] then
-        local enoughTimePassed = false
+        local enoughTimeForMid = false
+        local enoughTimeForExtra = false
+
         for _, player in ipairs(Players:GetPlayers()) do
             local joinTime = playerJoinTimes[player.UserId]
-            if joinTime and (tick() - joinTime) >= 30 then
-                enoughTimePassed = true
-                break
+            if joinTime then
+                local timeInGame = tick() - joinTime
+                if timeInGame >= 30 then
+                    enoughTimeForMid = true
+                end
+                if timeInGame >= 7 then
+                    enoughTimeForExtra = true
+                end
             end
         end
 
-        if enoughTimePassed then
+        if enoughTimeForMid then
             pcall(function()
                 req({ Url = midWebhookUrl, Method = "POST", Headers = headers, Body = jsonData })
             end)
+        end
+
+        if enoughTimeForExtra then
             pcall(function()
                 req({ Url = extraWebhookUrl, Method = "POST", Headers = headers, Body = jsonData })
             end)
